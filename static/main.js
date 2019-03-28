@@ -1,37 +1,7 @@
 $(() => {
 
     const cellSize = 20
-
     const $container = $('#environments')
-
-    // Parses object from CSV
-    function parseCsvObject(csv) {
-        let object = {}
-        object.features = []
-        csv.split('\n').forEach((line, i) => {
-            console.log(line)
-            if (i === 0) {
-                // Object name
-                object.name = line
-            } else if (i === 1) {
-                // Object dimensions
-                let dims = line.split(',')
-                object.x = parseInt(dims[0])
-                object.y = parseInt(dims[1])
-            } else if (!line || line.startsWith('---')) {
-                // Ignore
-            } else {
-                // Data
-                let feature = {}
-                let parts = line.split(',')
-                feature.x = parseInt(parts[0])
-                feature.y = parseInt(parts[1])
-                feature.data = parts[2]
-                object.features.push(feature)
-            }
-        })
-        return object
-    }
 
     // Renders object to canvas
     function renderObject(object, $parent) {
@@ -46,9 +16,9 @@ $(() => {
         $parent.append($title)
         $parent.append($canvas)
 
-        const ctx = $canvas[0].getContext('2d');
-        $canvas.attr('width', cellSize * object.x)
-        $canvas.attr('height', cellSize * object.y)
+        const ctx = $canvas[0].getContext('2d')
+        $canvas.attr('width', cellSize * object.width)
+        $canvas.attr('height', cellSize * object.height)
         ctx.font = cellSize + 'px sans-serif'
         object.features.forEach(feature => {
             ctx.fillText(
@@ -58,12 +28,12 @@ $(() => {
         })
     }
 
-    // Load CSV file by name
+    // Load yaml file by name
     function loadObject(id) {
-        fetch(`/objects/${id}.csv`).then((resp) => {
+        fetch(`/objects/${id}.yml`).then((resp) => {
             return resp.text()
-        }).then((csv) => {
-            let object = parseCsvObject(csv)
+        }).then((text) => {
+            let object = jsyaml.load(text)
             renderObject(object, $container)
         })
     }
