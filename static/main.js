@@ -1,15 +1,11 @@
+import objects from './objects/*.yml'  // loads all the yaml objects and parses them.
+
 $(() => {
 
     const cellSize = 20
     const $container = $('#environments')
 
-    // Renders object to canvas
-    function renderObject(object, $parent) {
-        // <div>
-        // <h3></h3>
-        // <canvas></canvas>
-        // </div>
-
+    function renderObjectToCanvas(object, $parent) {
         let $title = $('<div>').html(object.name)
         let $canvas = $('<canvas>')
 
@@ -28,16 +24,12 @@ $(() => {
         })
     }
 
-    // Load yaml file by name
-    function loadObject(id) {
-        fetch(`/objects/${id}.yml`).then((resp) => {
-            return resp.text()
-        }).then((text) => {
-            let object = jsyaml.load(text)
-            renderObject(object, $container)
-        })
-    }
+    // render all the objects
+    Object.values(objects).forEach((value) => {
+        renderObjectToCanvas(value, $container)
+    })
 
-    ['a', 'b'].forEach(loadObject)
+    // Or render them individually
+    // renderObjectToCanvas(objects['a'], $container)
 
 })

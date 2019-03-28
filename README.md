@@ -8,10 +8,10 @@ View objects by running the server.
 
 ## Install
 
-    npm install
+    npm install -g parcel-bundler
     
 ## Run
 
-    node index.js
-    open http://localhost:8080/index.html
+    parcel static/index.html
+    open http://localhost:1234
 
