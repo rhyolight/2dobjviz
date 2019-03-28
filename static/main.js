@@ -24,8 +24,12 @@ $(() => {
         })
     }
 
+    // render all the objects
     Object.values(objects).forEach((value) => {
         renderObjectToCanvas(value, $container)
     })
+
+    // Or render them individually
+    // renderObjectToCanvas(objects['a'], $container)
 
 })
