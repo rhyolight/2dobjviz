@@ -1,4 +1,5 @@
 import objects from './objects/*.yml'  // loads all the yaml objects and parses them.
+import $ from "jquery"
 
 $(() => {
 
